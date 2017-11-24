@@ -1,0 +1,16 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p, blockquote, form, label, ul, ol, dl, fieldset, address {
+    margin-bottom: 1em;
+}
+
+#root, body, html{
+    min-width:100%;
+    min-height: 100%;
+    height: 100%;
+    font-family: 'Amatic SC', cursive;
+    font-weight: 700;
+}
