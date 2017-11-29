@@ -1,0 +1,7 @@
+{
+  "galaxy.meteor.com": {
+    "env": {
+      "MONGO_URL": "mongodb://galkin:galkin@aws-eu-central-1-portal.2.dblayer.com:16760/inlike"
+    }
+  }
+}

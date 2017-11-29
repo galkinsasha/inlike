@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import _ from 'lodash'
 
-const getInstagramPhotosUrl    = 'http://api.instagram.com/v1/users/self/media/recent/'
+const getInstagramPhotosUrl    = 'https://api.instagram.com/v1/users/self/media/recent/'
 
 // ------------------------------------
 // Constants
