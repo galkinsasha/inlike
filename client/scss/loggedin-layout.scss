@@ -27,28 +27,108 @@
     .content{
       height:100%;
       width:100%;
-      display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      position: absolute;
-
-      .vs{
-        vertical-align: middle;
+      position: relative;
+      div{
+        height:100%;
+      }
+      .info-wrapper{
         display: flex;
-        justify-content: center;
-        align-self: center;
-        border-radius: 50%;
-        height: 76px;
-        width: 76px;
-        background: #fff;
+        justify-content: space-between;
+        height: 125px;
         position: absolute;
-        right: calc(50% - 38px);
-        top: calc(50% - 38px);
-        font-size: 54px;
+        width: 100%;
+        top:calc(50% - 63px);
+        .vs{
+          vertical-align: middle;
+          display: flex;
+          justify-content: center;
+          align-self: center;
+          border-radius: 50%;
+          height: 76px;
+          width: 76px;
+          background: #fff;
+          font-size: 54px;
+          transition: all 0.3s ease;
+
+          &:after {
+            content: 'VS';
+            position: absolute;
+            font-size: 36px;
+            padding: 12px;
+          }
+          &.correct{
+            box-shadow: inset 0 0 0 9px #00dc5d;
+            &:after {
+              font-family:'Glyphicons Halflings';
+              color:#00dc5d;
+              content: '\e013';
+            }
+          }
+          &.fail{
+            box-shadow: inset 0 0 0 9px #dc3f33;
+            &:after {
+              font-family:'Glyphicons Halflings';
+              color:#dc3f33;
+              content: '\e014';
+            }
+          }
+        }
+        .buttons{
+          button{
+            width: 140px;
+            display: block;
+            font-size:30px;
+            margin-bottom: 10px;
+          };
+        }
+        .likes{
+          color:#fff;
+          font-size: 50px;
+          width:140px;
+          position: relative;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+
+          &:before{
+            font-family:'Glyphicons Halflings';
+            content: '\e005';
+            position: absolute;
+            left:0;
+            top:0;
+            height:100px;
+            width:100px;
+            opacity:0.6;
+            color: #ff225c;
+            font-size:84px;
+          }
+        }
+      }
+      .counter{
+        font-size: 28px;
+        position: absolute;
+        display: block;
+        z-index: 2;
+        top:10px;
+        left:10px;
+        padding: 0 10px;
+        height: 40px;
+        &:after{
+          position: absolute;
+          content:'';
+          width:100%;
+          height:100%;
+          background: #fff;
+          opacity:0.4;
+          border-radius:6px;
+          left: 0;
+          z-index: -1;
+        }
       }
     }
 
-      .images{
+    .images{
         display: flex;
         flex-wrap: nowrap;
         flex-direction: row;
@@ -58,67 +138,17 @@
         background-size: cover;
         background-color: #e2e2e2;
         background-position: center center;
-        .buttons{
-          position: absolute;
-          top:40%;
-          right: calc(50% - 70px);
-          button{
-            width: 140px;
-            display: block;
-            font-size:30px;
-            margin-bottom: 10px;
-          };
-        }
-        .likes{
-          position: absolute;
-          top:45%;
-          left:55%;
-          color:#fff;
-          font-size: 50px;
-          &:before{
-            font-family:'Glyphicons Halflings';
-            content: '\e005';
-            position: absolute;
-            left:-100px;
-            top:-20px;
-            height:100px;
-            width:100px;
-            opacity:0.6;
-            color: #ff225c;
-            font-size:84px;
-          }
-        }
-        .counter{
-          font-size: 28px;
-          position: absolute;
-          display: block;
-          z-index: 2;
-          top:10px;
-          left:10px;
-          padding: 0 10px;
-          &:after{
-            position: absolute;
-            content:'';
-            width:100%;
-            height:100%;
-            background: #fff;
-            opacity:0.4;
-            border-radius:6px;
-            left: 0;
-            z-index: -1;
-          }
-        }
       img{
         padding:20px;
         max-height:100%;
         max-width:100%;
       }
     }
-    @media screen and (min-width: 50em) {
+    /*@media screen and (min-width: 50em) {
       .images{
         width: 50%;
       }
-    }
+    }*/
 
   }
 }
