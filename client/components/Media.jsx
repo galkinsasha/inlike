@@ -11,7 +11,7 @@ import Slider from 'react-slick'
 
 class Loggedin extends Component {
     constructor(props){
-        super()
+        super(props)
         this.state = {
             count:0,
             answer:''
@@ -52,9 +52,6 @@ class Loggedin extends Component {
         })
         const {media} = this.props
         const settings = {
-            responsive:[
-                { breakpoint: 768, settings: { vertical: true }}
-            ],
             dots: false,
             infinite: false,
             speed: 600,
@@ -62,17 +59,25 @@ class Loggedin extends Component {
             slidesToScroll: 1,
             accessibility:false,
             arrows:false,
-            swipe:true
+            swipe:true,
+            responsive:[
+                { breakpoint: 768, settings: {
+
+                    vertical:true
+
+                }}
+            ]
+
         }
         return <Slider key={media.length} {...settings} ref={c => this.slider = c } >
             <div className="slide" key={media[0].id}>
-                <div className="images" key={media[0].id} style={style(media[0].images.standard_resolution.url)}/>
+                <div className="images" key={media[0].id} style={style(media[0].images.standard_resolution.url)}></div>
             </div>
             <div className="slide" key={media[1].id}>
-                <div className="images" key={media[1].id} style={style(media[1].images.standard_resolution.url)}/>
+                <div className="images" key={media[1].id} style={style(media[1].images.standard_resolution.url)}></div>
             </div>
             <div className="slide" key={media[2].id}>
-                <div className="images" key={media[2].id} style={style(media[2].images.standard_resolution.url)}/>
+                <div className="images" key={media[2].id} style={style(media[2].images.standard_resolution.url)}></div>
             </div>
         </Slider>
     }

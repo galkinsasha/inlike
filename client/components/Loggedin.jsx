@@ -19,7 +19,6 @@ class Loggedin extends Component {
         Tracker.autorun(setUser.bind(null, uid))
     }
 
-
     render() {
         const {userData} = this.props
         console.log(userData);
