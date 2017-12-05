@@ -1,0 +1,20 @@
+.settings-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  .item{
+    font-size: 45px;
+    flex-grow: 1;
+    width: 33%;
+    justify-content:center;
+    align-items: center;
+    display: flex;
+    margin-bottom:30px;
+    &.active{
+      background: linear-gradient(45deg, #905aff 0%, #daa1ff 50%, #ffcb9d);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+    }
+  }
+}

@@ -10,6 +10,7 @@
     "immutable": "^3.8.2",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "^0.3.2",
+    "prop-types": "^15.6.0",
     "react": "^16.1.1",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.1.1",

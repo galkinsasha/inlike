@@ -11,6 +11,6 @@ export const mediaSelector = state => {
 }
 
 export const mediaErrorSelector = state => {
-    return state.media.error_message || null
+    return state.media.error || null
 }
 

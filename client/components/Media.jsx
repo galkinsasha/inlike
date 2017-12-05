@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import  { actions as mediaActions } from '../redux/modules/media'
+import  { actions as userActions } from '../redux/modules/user'
 import { mediaSelector, mediaErrorSelector } from '../redux/selectors/media'
-import { accessTokenSelector } from '../redux/selectors/user'
+import { accessTokenSelector, userMatchTypeSelector } from '../redux/selectors/user'
+import Settings from './SettingsContent';
 import { Tracker } from 'meteor/tracker';
 import { Button } from 'react-bootstrap';
 import Loader from './Loader';
 import _ from 'lodash';
-import Slider from 'react-slick'
+import Slider from 'react-slick';
+import Modal from './Modal';
+
 
 class Loggedin extends Component {
     constructor(props){
@@ -18,14 +22,27 @@ class Loggedin extends Component {
         }
     }
 
-    componentDidMount() {
-        const { accessToken, getInstagramPhotos } = this.props
-        getInstagramPhotos(accessToken)
+    componentWillMount() {
+        const { accessToken, matchType, getInstagramPhotos, getType } = this.props
+        getType()
+        getInstagramPhotos(accessToken, matchType)
     }
+
+    componentDidUpdate(props) {
+        const { accessToken, matchType, getInstagramPhotos } = props
+        if(matchType!==this.props.matchType){
+            getInstagramPhotos(accessToken, this.props.matchType)
+        }
+    }
+
     render() {
         const {media, error} = this.props;
         if(error){
-            return error
+            return <div className="media-error">
+                {error}
+                <h4>спробуйте інший тег</h4>
+                <Settings/>
+            </div>
         }else if(!_.isEmpty(media)){
             return <div className="content" id={this.state.count}>
                 {this._getSlider()}
@@ -40,6 +57,11 @@ class Loggedin extends Component {
                     </div>
                     <div></div>
                 </div>
+                <Modal
+                    ref="modal"
+                    content = {<Settings/>}
+                    header = 'Гру завершено'
+                />
                 </div>
         }else{
             return <Loader/>
@@ -120,18 +142,29 @@ class Loggedin extends Component {
     }
 
     _onFail(){
-        //alert('wrong')
+
+        setTimeout(()=>{
+            this.setState({
+                answer:'',
+                count:0
+            },this._showModalForm())
+        },601)
     }
+
+    _showModalForm = () => this.refs.modal.show()
+    _closeModalForm = () => this.refs.modal.close()
 }
 
 const mapDispatchToProps = {
-    ...mediaActions
+    ...mediaActions,
+    ...userActions
 }
 
 const mapStateToProps = (state) => ({
     accessToken  : accessTokenSelector(state),
     media : mediaSelector(state),
     error : mediaErrorSelector(state),
+    matchType : userMatchTypeSelector(state),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Loggedin)

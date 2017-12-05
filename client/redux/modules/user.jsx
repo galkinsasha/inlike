@@ -8,10 +8,9 @@ export const SET_ERROR = NAMESPACE+'/'+'SET_ERROR'
 export const SET_USER = NAMESPACE+'/'+'SET_USER'
 export const SET_USER_UID = NAMESPACE+'/'+'SET_USER_UID'
 export const LOGOUT_USER = NAMESPACE+'/'+'LOGOUT_USER'
-
-
-
-export const GET_INSTAGRAM_PHOTOS = NAMESPACE+'/'+'GET_INSTAGRAM_PHOTOS'
+export const UPDATE_COUNT = NAMESPACE+'/'+'UPDATE_COUNT'
+export const SET_TYPE = NAMESPACE+'/'+'SET_TYPE'
+export const GET_TYPE = NAMESPACE+'/'+'GET_TYPE'
 
 // ------------------------------------
 // Actions
@@ -21,6 +20,28 @@ export const setError = err => ({
     type: SET_ERROR,
     payload: err
 })
+
+export const updateCount = count => {
+    return {
+        type: SET_USER,
+        payload: Meteor.users.update({_id:Meteor.userId()}, { $set: {'profile.count':count} })
+    }
+}
+
+export const setType = type => {
+    Meteor.users.update({_id:Meteor.userId()}, { $set: {'profile.type':type} })
+    return {
+        type: SET_TYPE,
+        payload: type
+    }
+}
+
+export const getType = () => {
+    return {
+        type: GET_TYPE,
+        payload: Meteor.user().profile.type || null
+    }
+}
 
 export const setUser = id => ({
     type: SET_USER,
@@ -41,6 +62,9 @@ export const actions = {
     setError,
     setUser,
     checkLoggedIn,
+    updateCount,
+    setType,
+    getType,
     logoutUser
 }
 
@@ -58,6 +82,15 @@ export default handleActions({
     },
     [LOGOUT_USER] : (state) =>{
         return {}
+    },
+    [UPDATE_COUNT] : (state, { payload }) =>{
+        return state
+    },
+    [SET_TYPE] : (state, { payload }) =>{
+        return { ...state, type:payload }
+    },
+    [GET_TYPE] : (state, { payload }) =>{
+        return { ...state, type:payload }
     }
 
 }, {})

@@ -21,7 +21,6 @@ class Loggedin extends Component {
 
     render() {
         const {userData} = this.props
-        console.log(userData);
         return <Layout { ...userData }>
             {this._getContent(userData.id)}
         </Layout>

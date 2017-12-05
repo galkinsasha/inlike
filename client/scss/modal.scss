@@ -1,0 +1,24 @@
+.modal-dialog{
+  color:#fff;
+  font-family: 'Amatic SC', cursive;
+
+  .modal-content{
+    background-color: #424143;
+    .modal-header{
+      margin: 0 15px;
+      padding: 15px 0;
+      h4{
+        margin:0
+      }
+    }
+
+    .modal-body{
+      margin: 0 15px;
+      padding: 15px 0;
+    }
+    .modal-footer{
+      margin: 0 15px;
+      padding: 15px 0;
+    }
+  }
+}

@@ -36,4 +36,8 @@ export const userInfoSelector = state => {
     const info = state.user_info.services || {}
     return info.hasOwnProperty('instagram') ? info.instagram : {}
 }
+export const userMatchTypeSelector = state => {
+    const profile = state.user_info.profile || {}
+    return profile.hasOwnProperty('type') ? profile.type : {}
+}
 
