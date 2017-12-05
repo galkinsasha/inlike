@@ -81,7 +81,7 @@ class Loggedin extends Component {
             slidesToScroll: 1,
             accessibility:false,
             arrows:false,
-            swipe:true,
+            swipe:false,
             responsive:[
                 { breakpoint: 768, settings: {
 

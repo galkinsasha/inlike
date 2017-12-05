@@ -10,7 +10,7 @@ export const UPDATE_PHOTOS = NAMESPACE+'/'+'UPDATE_PHOTOS'
 export const FAIL_PHOTOS = NAMESPACE+'/'+'FAIL_PHOTOS'
 
 const TAGS = {
-    girls:['boobsout'],
+    girls:['олексійолександрович'],
     pets:['pets'],
     nature:['canary'],
     cars:['carsandcoffee'],

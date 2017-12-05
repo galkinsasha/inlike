@@ -12,9 +12,7 @@
     display: flex;
     margin-bottom:30px;
     &.active{
-      background: linear-gradient(45deg, #905aff 0%, #daa1ff 50%, #ffcb9d);
-      -webkit-text-fill-color: transparent;
-      -webkit-background-clip: text;
+      color:#ff96fb;
     }
   }
 }

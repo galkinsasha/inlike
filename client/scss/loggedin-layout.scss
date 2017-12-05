@@ -1,6 +1,7 @@
 #loggedIn-layout{
   width: 100%;
   height: 100%;
+  overflow: hidden;
   .navbar{
     margin:0;
   }
@@ -75,12 +76,14 @@
           background: #fff;
           font-size: 54px;
           transition: all 0.3s ease;
-
+          position: relative;
           &:after {
             content: 'VS';
             position: absolute;
             font-size: 36px;
             padding: 12px;
+            top: 0;
+            left: 14px;
           }
           &.correct{
             box-shadow: inset 0 0 0 38px #00dc5d;
@@ -88,6 +91,7 @@
               font-family:'Glyphicons Halflings';
               color:#FFF;
               content: '\e013';
+              left: 9px;
             }
           }
           &.fail{
@@ -96,6 +100,7 @@
               font-family:'Glyphicons Halflings';
               color:#FFF;
               content: '\e014';
+              left: 9px;
             }
           }
         }

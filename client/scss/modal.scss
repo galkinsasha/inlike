@@ -1,7 +1,22 @@
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
 .modal-dialog{
   color:#fff;
   font-family: 'Amatic SC', cursive;
-
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
   .modal-content{
     background-color: #424143;
     .modal-header{
