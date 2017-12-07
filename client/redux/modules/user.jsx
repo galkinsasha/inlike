@@ -23,7 +23,7 @@ export const setError = err => ({
 
 export const updateCount = count => {
     return {
-        type: SET_USER,
+        type: UPDATE_COUNT,
         payload: Meteor.users.update({_id:Meteor.userId()}, { $set: {'profile.count':count} })
     }
 }
@@ -87,7 +87,7 @@ export default handleActions({
         return state
     },
     [SET_TYPE] : (state, { payload }) =>{
-        return { ...state, type:payload }
+        return { ...state, type:payload, error:null }
     },
     [GET_TYPE] : (state, { payload }) =>{
         return { ...state, type:payload }

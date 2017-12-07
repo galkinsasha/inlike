@@ -17,7 +17,12 @@ export default class ModalDialog extends Component {
                 disabled:PropTypes.bool
             }).isRequired
         ),
-        header:PropTypes.string
+        header:PropTypes.string,
+        show:PropTypes.bool
+    };
+
+    static defaultProps = {
+        show:false
     };
 
     constructor(props) {
@@ -32,7 +37,7 @@ export default class ModalDialog extends Component {
                 header = this._getHeader(),
                 footer = this._getFooter()
         return (
-            <Modal show={this.state.show} onHide={this.close} backdrop={true}>
+            <Modal show={this.state.show || this.props.show} onHide={this.close} backdrop={'static'}>
                 {header}
                 {content}
                 {footer}

@@ -41,3 +41,8 @@ export const userMatchTypeSelector = state => {
     return profile.hasOwnProperty('type') ? profile.type : {}
 }
 
+export const userCountSelector = state => {
+    const profile = state.user_info.profile || {}
+    return profile.hasOwnProperty('count') ? profile.count : 0
+}
+

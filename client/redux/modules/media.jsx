@@ -8,6 +8,7 @@ export const NAMESPACE = 'media'
 export const GET_INSTAGRAM_PHOTOS = NAMESPACE+'/'+'GET_INSTAGRAM_PHOTOS'
 export const UPDATE_PHOTOS = NAMESPACE+'/'+'UPDATE_PHOTOS'
 export const FAIL_PHOTOS = NAMESPACE+'/'+'FAIL_PHOTOS'
+export const PROCESSING_PHOTOS = NAMESPACE+'/'+'PROCESSING_PHOTOS'
 
 const TAGS = {
     girls:['олексійолександрович'],
@@ -24,6 +25,7 @@ const TAGS = {
 
 export const getInstagramPhotos  = (accessToken, type) => {
     return function(dispatch) {
+        dispatch({type:PROCESSING_PHOTOS, payload:true})
         const uri = getUri(accessToken, type)
         return fetch(uri, {
             method: 'GET'
@@ -32,7 +34,7 @@ export const getInstagramPhotos  = (accessToken, type) => {
                 if(responseText.hasOwnProperty('data') && responseText.data.length>=3){
                     dispatch({type:GET_INSTAGRAM_PHOTOS, payload:responseText})
                 }else{
-                    dispatch({type:FAIL_PHOTOS, payload:'Ой, не можу знайти фото'})
+                    dispatch({type:FAIL_PHOTOS, payload:'Ой, не можу знайти фото. Спробуйте іншій тег.'})
                 }
 
             })
@@ -58,13 +60,15 @@ export const actions = {
 export default function mediaReducer(state = {}, action) {
     switch(action.type) {
         case GET_INSTAGRAM_PHOTOS:
-            return action.payload.data
+            return {...state, data:action.payload.data, error:null, processing:false}
+        case PROCESSING_PHOTOS:
+            return {...state, data:action.payload.data, processing:true}
         case FAIL_PHOTOS:
-            return {...state, error:action.payload}
+            return {...state, error:action.payload, processing:false}
         case UPDATE_PHOTOS:
-            let arr = state
-            arr.shift()
-            return _.clone(arr)
+            let {data} = state
+            data.shift()
+            return{...state, data:_.clone(data)}
         default:
             return state;
     }

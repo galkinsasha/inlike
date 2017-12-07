@@ -1,0 +1,22 @@
+.gameOver-wrapper{
+  .gameOver-results{
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    .result{
+      font-size: 48px;
+    }
+    .best-result{
+      font-size:80px;
+      .glyphicon{
+        color:#ffcb9d;
+        margin: 30px;
+      }
+      .title{
+        font-size:18px;
+        color:#f9d1ff;
+      }
+    }
+  }
+}

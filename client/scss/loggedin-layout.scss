@@ -1,9 +1,11 @@
 #loggedIn-layout{
   width: 100%;
   height: 100%;
-  overflow: hidden;
   .navbar{
     margin:0;
+    .navbar-header{
+      margin: 0!important;
+    }
   }
   .navbar-text{
     display: block;

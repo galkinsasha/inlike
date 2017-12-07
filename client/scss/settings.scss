@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  margin-top: 20px;
   .item{
     font-size: 45px;
     flex-grow: 1;
@@ -15,4 +16,10 @@
       color:#ff96fb;
     }
   }
+
+}
+.settings-error{
+  margin:0 auto;
+  text-align: center;
+  min-height: 20px;
 }

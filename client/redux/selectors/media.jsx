@@ -7,10 +7,14 @@ import { toJS } from 'immutable'
 
 
 export const mediaSelector = state => {
-    return state.media || {}
+    return state.media.data || {}
 }
 
 export const mediaErrorSelector = state => {
     return state.media.error || null
+}
+
+export const mediaProcessingSelector = state => {
+    return state.media.processing || null
 }
 

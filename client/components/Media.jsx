@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import  { actions as mediaActions } from '../redux/modules/media'
 import  { actions as userActions } from '../redux/modules/user'
-import { mediaSelector, mediaErrorSelector } from '../redux/selectors/media'
-import { accessTokenSelector, userMatchTypeSelector } from '../redux/selectors/user'
 import Settings from './SettingsContent';
+import Modal from './Modal';
+import { mediaSelector, mediaErrorSelector, mediaProcessingSelector } from '../redux/selectors/media'
+import { accessTokenSelector, userMatchTypeSelector } from '../redux/selectors/user'
 import { Tracker } from 'meteor/tracker';
 import { Button } from 'react-bootstrap';
 import Loader from './Loader';
+import GameOverContent from './GameOverContent';
 import _ from 'lodash';
 import Slider from 'react-slick';
-import Modal from './Modal';
-
 
 class Loggedin extends Component {
     constructor(props){
@@ -28,22 +28,14 @@ class Loggedin extends Component {
         getInstagramPhotos(accessToken, matchType)
     }
 
-    componentDidUpdate(props) {
-        const { accessToken, matchType, getInstagramPhotos } = props
-        if(matchType!==this.props.matchType){
-            getInstagramPhotos(accessToken, this.props.matchType)
-        }
+    shouldComponentUpdate(props){
+        return !props.error && !props.fetchingPhotos
     }
 
     render() {
-        const {media, error} = this.props;
-        if(error){
-            return <div className="media-error">
-                {error}
-                <h4>спробуйте інший тег</h4>
-                <Settings/>
-            </div>
-        }else if(!_.isEmpty(media)){
+        const { media } = this.props;
+        const { firstLoad } = this.state;
+        if(!_.isEmpty(media) && !this.props.fetchingPhotos){
             return <div className="content" id={this.state.count}>
                 {this._getSlider()}
                 <div className="counter">Вгадано: {this.state.count}</div>
@@ -57,15 +49,21 @@ class Loggedin extends Component {
                     </div>
                     <div></div>
                 </div>
-                <Modal
-                    ref="modal"
-                    content = {<Settings/>}
-                    header = 'Гру завершено'
-                />
+                { this._getGameOver() }
                 </div>
-        }else{
+        }else if(_.isEmpty(media)&& this.props.fetchingPhotos){
             return <Loader/>
+        }else{
+            return <Modal
+                ref="modal"
+                content = {<Settings/>}
+                header = 'Налаштування'
+                show={true}
+            />
         }
+    }
+    _getGameOver = () => {
+        return <GameOverContent currCount = {this.state.count} ref='game_over'/>
     }
 
     _getSlider = () => {
@@ -83,11 +81,11 @@ class Loggedin extends Component {
             arrows:false,
             swipe:false,
             responsive:[
-                { breakpoint: 768, settings: {
-
-                    vertical:true
-
-                }}
+                {   breakpoint: 768,
+                    settings: {
+                        vertical:true
+                    }
+                }
             ]
 
         }
@@ -142,17 +140,14 @@ class Loggedin extends Component {
     }
 
     _onFail(){
-
+        const { count } = this.state
         setTimeout(()=>{
             this.setState({
                 answer:'',
                 count:0
-            },this._showModalForm())
+            },this.refs.game_over.getWrappedInstance().show(count))
         },601)
     }
-
-    _showModalForm = () => this.refs.modal.show()
-    _closeModalForm = () => this.refs.modal.close()
 }
 
 const mapDispatchToProps = {
@@ -165,6 +160,7 @@ const mapStateToProps = (state) => ({
     media : mediaSelector(state),
     error : mediaErrorSelector(state),
     matchType : userMatchTypeSelector(state),
+    fetchingPhotos : mediaProcessingSelector(state),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Loggedin)

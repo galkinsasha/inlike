@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import '../scss/loggedin-layout.scss'
 import '../scss/loggedout.scss';
 import { connect } from 'react-redux'
-import  { actions } from '../redux/modules/user'
+import  { actions as userActions } from '../redux/modules/user'
+import  { actions as mediaActions } from '../redux/modules/media'
+import  { mediaErrorSelector } from '../redux/selectors/media'
 import { Tracker } from 'meteor/tracker';
 import Modal from './../components/Modal';
 import Settings from './../components/SettingsContent';
@@ -16,6 +18,12 @@ import {
 } from 'react-bootstrap';
 
 class LoggedinLayout extends Component{
+    componentDidUpdate(){
+        const {error} = this.props
+        if(!error){
+            this._closeModalForm()
+        }
+    }
     render(){
         return<div id="loggedIn-layout">
             <Navbar inverse staticTop>
@@ -43,19 +51,21 @@ class LoggedinLayout extends Component{
             <Modal
                 //contentLabel={"edit_segment"}
                 ref="modal"
-                content = {<Settings callback={this._onCallback.bind(this)}/>}
+                content = {<Settings/>}
                 header = 'Налаштування'
             />
         </div>
     }
-    _onCallback = (type) => this._closeModalForm()
     _logout = () => Tracker.autorun(this.props.logoutUser)
     _showModalForm = () => this.refs.modal.show()
     _closeModalForm = () => this.refs.modal.close()
 }
 const mapDispatchToProps = {
-    ...actions
+    ...mediaActions,
+    ...userActions
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = (state) => ({
+    error : mediaErrorSelector(state),
+})
 export default connect(mapStateToProps, mapDispatchToProps)(LoggedinLayout)

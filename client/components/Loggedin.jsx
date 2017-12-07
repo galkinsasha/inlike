@@ -16,7 +16,7 @@ class Loggedin extends Component {
 
     componentDidMount() {
         const {setUser, uid} = this.props
-        Tracker.autorun(setUser.bind(null, uid))
+        Tracker.autorun(setUser.bind(this,uid))
     }
 
     render() {
