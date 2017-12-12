@@ -7,7 +7,10 @@ import  { actions as mediaActions } from '../redux/modules/media'
 import  { mediaErrorSelector } from '../redux/selectors/media'
 import { Tracker } from 'meteor/tracker';
 import Modal from './../components/Modal';
-import Settings from './../components/SettingsContent';
+import Settings from './../components/SettingsContent'
+import { browserHistory } from 'react-router'
+import PropTypes from 'prop-types';
+
 
 import {
     Navbar,
@@ -18,6 +21,7 @@ import {
 } from 'react-bootstrap';
 
 class LoggedinLayout extends Component{
+
     componentDidUpdate(){
         const {error} = this.props
         if(!error){
@@ -33,8 +37,8 @@ class LoggedinLayout extends Component{
                     </Navbar.Brand>
                     <Nav>
                         <NavDropdown eventKey={3} title={this.props.full_name || ''} id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1}>Профиль</MenuItem>
-                            <MenuItem onClick = {this._showModalForm.bind(this)} eventKey={3.2}>Настройки</MenuItem>
+                            <MenuItem onClick = {this._showModalForm.bind(this)} eventKey={3.1}>Настройки</MenuItem>
+                            <MenuItem eventKey={3.2} onClick = {this._goToPolicy.bind(this)}>Політика конфіденційності</MenuItem>
                             <MenuItem divider />
                             <MenuItem eventKey={3.3} onClick={this._logout.bind(this)}>Выход</MenuItem>
                         </NavDropdown>
@@ -56,10 +60,16 @@ class LoggedinLayout extends Component{
             />
         </div>
     }
+    _goToPolicy = () => window.location.href = '/policy'
     _logout = () => Tracker.autorun(this.props.logoutUser)
     _showModalForm = () => this.refs.modal.show()
     _closeModalForm = () => this.refs.modal.close()
 }
+
+LoggedinLayout.contextTypes = {
+    history: PropTypes.object
+}
+
 const mapDispatchToProps = {
     ...mediaActions,
     ...userActions

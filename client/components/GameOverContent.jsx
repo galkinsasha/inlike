@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import  { actions as userActions } from '../redux/modules/user'
 import { userCountSelector } from '../redux/selectors/user'
-import { mediaErrorSelector, mediaProcessingSelector } from '../redux/selectors/media'
+import { mediaErrorSelector, mediaProcessingSelector, mediaErrorMoreSelector } from '../redux/selectors/media'
 import { Glyphicon } from 'react-bootstrap'
 
 import Settings from './SettingsContent';
@@ -21,9 +21,11 @@ class GameOverContent extends Component {
 
     componentDidUpdate(){
         const { settingsChanged } = this.state
-        const { error, fetchingPhotos } = this.props
+        const { error, errorMore, fetchingPhotos } = this.props
         if ( settingsChanged && !error && !fetchingPhotos ){
             this.hide()
+        }else if(errorMore){
+            this.show();
         }
     }
 
@@ -34,6 +36,7 @@ class GameOverContent extends Component {
     }
 
     render() {
+        const { errorMore } = this.props
         const { count } = this.state
         return <Modal
             ref="modal"
@@ -44,17 +47,18 @@ class GameOverContent extends Component {
                 </div>
                 <Settings callback={this._onCallback.bind(this)}/>
             </div>}
-            header = 'Гру завершено'
+            header = {errorMore ? 'Що далі?' : 'Гру завершено' }
         />
     }
 
     _getResults = (count) => {
-        return <div className="result">Ваш результат:{count}</div>
+        const { errorMore } = this.props
+        return errorMore ? <div className="result small">{errorMore}</div> : <div className="result">Ваш результат:{count}</div>
     }
 
     _getBestResults = (count) => {
-        const {bestCount, updateCount} = this.props
-        if(bestCount < count){
+        const {bestCount, updateCount, errorMore} = this.props
+        if(bestCount < count && !errorMore){
             updateCount(count)
             return <div className="best-result">
                 <Glyphicon glyph="tower"/>
@@ -92,6 +96,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
     bestCount  : userCountSelector(state),
     error  : mediaErrorSelector(state),
+    errorMore : mediaErrorMoreSelector(state),
     fetchingPhotos  : mediaProcessingSelector(state)
 })
 
