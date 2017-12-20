@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import  { actions as userActions } from '../redux/modules/user'
 import  { actions as mediaActions } from '../redux/modules/media'
 import  Loader from './Loader'
-import { userSelector, userMatchTypeSelector, accessTokenSelector } from '../redux/selectors/user'
+import { userSelector, userMatchTypeSelector, accessTokenSelector, userLangSelector } from '../redux/selectors/user'
 import { mediaErrorSelector, mediaProcessingSelector} from '../redux/selectors/media'
-import { Tracker } from 'meteor/tracker';
-import PropTypes from 'prop-types';
+import { Tracker } from 'meteor/tracker'
+import PropTypes from 'prop-types'
 import './../scss/settings.scss'
+import language from './../lng.json';
+
 
 class Settings extends Component {
 
@@ -52,7 +54,10 @@ class Settings extends Component {
         }
     }
     _getLoader = () => this.props.fetchingPhotos ? <Loader type="bar"/> : null
-    _getError = () => !this.props.fetchingPhotos && this.props.error ? this.props.error : null
+    _getError = () => {
+        const {ln} = this.props
+        return !this.props.fetchingPhotos && this.props.error ? language[ln]['cant_find_photo'] : null
+    }
 }
 
 Settings.defaultProps = {
@@ -70,7 +75,8 @@ const mapStateToProps = (state) => ({
     matchType: userMatchTypeSelector(state),
     accessToken: accessTokenSelector(state),
     error: mediaErrorSelector(state),
-    fetchingPhotos  : mediaProcessingSelector(state)
+    fetchingPhotos  : mediaProcessingSelector(state),
+    ln  : userLangSelector(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)

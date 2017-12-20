@@ -1,7 +1,7 @@
 {
   "galaxy.meteor.com": {
     "env": {
-      "MONGO_URL": "mongodb://galkin:galkin@aws-eu-central-1-portal.2.dblayer.com:16760/inlike"
+      "MONGO_URL": "mongodb://galkin:galkin@cluster0-shard-00-00-xwrtx.mongodb.net:27017,cluster0-shard-00-01-xwrtx.mongodb.net:27017,cluster0-shard-00-02-xwrtx.mongodb.net:27017/inlike?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"
     }
   }
 }

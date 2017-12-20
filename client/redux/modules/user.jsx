@@ -11,6 +11,8 @@ export const LOGOUT_USER = NAMESPACE+'/'+'LOGOUT_USER'
 export const UPDATE_COUNT = NAMESPACE+'/'+'UPDATE_COUNT'
 export const SET_TYPE = NAMESPACE+'/'+'SET_TYPE'
 export const GET_TYPE = NAMESPACE+'/'+'GET_TYPE'
+export const GET_LANGUAGE = NAMESPACE+'/'+'GET_LANGUAGE'
+export const SET_LANGUAGE = NAMESPACE+'/'+'SET_LANGUAGE'
 
 // ------------------------------------
 // Actions
@@ -25,6 +27,22 @@ export const updateCount = count => {
     return {
         type: UPDATE_COUNT,
         payload: Meteor.users.update({_id:Meteor.userId()}, { $set: {'profile.count':count} })
+    }
+}
+
+export const setLang = ln => {
+    Meteor.users.update({_id:Meteor.userId()}, { $set: {'profile.lang':ln} })
+    return {
+        type: SET_LANGUAGE,
+        payload: ln
+    }
+}
+
+
+export const getLang = () => {
+    return {
+        type: GET_LANGUAGE,
+        payload: Meteor.user().profile.lang || 'ru'
     }
 }
 
@@ -65,7 +83,9 @@ export const actions = {
     updateCount,
     setType,
     getType,
-    logoutUser
+    logoutUser,
+    setLang,
+    getLang
 }
 
 // ------------------------------------
@@ -91,6 +111,12 @@ export default handleActions({
     },
     [GET_TYPE] : (state, { payload }) =>{
         return { ...state, type:payload }
+    },
+    [GET_LANGUAGE] : (state, { payload }) =>{
+        return { ...state, lang:payload, error:null }
+    },
+    [SET_LANGUAGE] : (state, { payload }) =>{
+        return { ...state, lang:payload }
     }
 
 }, {})

@@ -46,3 +46,8 @@ export const userCountSelector = state => {
     return profile.hasOwnProperty('count') ? profile.count : 0
 }
 
+export const userLangSelector = state => {
+    const profile = state.user_info || {}
+    return profile.hasOwnProperty('lang') ? profile.lang : 'ru'
+}
+

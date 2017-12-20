@@ -16,13 +16,24 @@ class Policy extends Component{
             {_.map(policy[this.state.lang], (content,title) => {
                 return <div className="policy-item" key={_.uniqueId("policy_")}>
                     <h2>{'- '+title}</h2>
-                    {content}
+                    {this._getContent(content)}
                     <hr/>
                 </div>
             })}
         </div>
     }
 
+    _getContent = (c)=>{
+        if (typeof c == 'object'){
+            return <div>
+                {c.description}
+                <br/>
+                {_.map(c.additional, (item,i)=><span key={i}>&#8226; {item} <br/></span>)}
+            </div>
+        }else{
+            return c
+        }
+    }
     _switchLang = (l) => this.setState({lang:l})
 }
 

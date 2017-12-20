@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import  { actions as userActions } from '../redux/modules/user'
-import { userCountSelector } from '../redux/selectors/user'
+import { userCountSelector, userLangSelector } from '../redux/selectors/user'
 import { mediaErrorSelector, mediaProcessingSelector, mediaErrorMoreSelector } from '../redux/selectors/media'
 import { Glyphicon } from 'react-bootstrap'
+import language from './../lng.json'
+
 
 import Settings from './SettingsContent';
 import Modal from './Modal';
@@ -47,22 +49,22 @@ class GameOverContent extends Component {
                 </div>
                 <Settings callback={this._onCallback.bind(this)}/>
             </div>}
-            header = {errorMore ? 'Що далі?' : 'Гру завершено' }
+            header = {errorMore ? 'what_is_next' : 'game_over' }
         />
     }
 
     _getResults = (count) => {
-        const { errorMore } = this.props
-        return errorMore ? <div className="result small">{errorMore}</div> : <div className="result">Ваш результат:{count}</div>
+        const { errorMore, ln } = this.props
+        return errorMore ? <div className="result small">{language[ln]['end_photo']}</div> : <div className="result">{ language[ln]['your_result'] }:{count}</div>
     }
 
     _getBestResults = (count) => {
-        const {bestCount, updateCount, errorMore} = this.props
+        const {bestCount, updateCount, errorMore, ln} = this.props
         if(bestCount < count && !errorMore){
             updateCount(count)
             return <div className="best-result">
                 <Glyphicon glyph="tower"/>
-                <div className="title">Ви перевершили себе! Це ваш новий рекорд</div>
+                <div className="title">{ language[ln]['best_result'] }</div>
             </div>
 
         }else{
@@ -70,7 +72,7 @@ class GameOverContent extends Component {
         }
     }
 
-    _onCallback = (type) => {
+    _onCallback = () => {
         this.setState({
             settingsChanged:true
         })
@@ -79,13 +81,13 @@ class GameOverContent extends Component {
     show = (count) => {
         this.setState({
             count
-        },this.refs.modal.show())
+        },this.refs.modal.getWrappedInstance().show())
     }
 
     hide = () => {
         this.setState({
             settingsChanged:false
-        },this.refs.modal.close())
+        },this.refs.modal.getWrappedInstance().close())
     }
 }
 
@@ -97,7 +99,8 @@ const mapStateToProps = (state) => ({
     bestCount  : userCountSelector(state),
     error  : mediaErrorSelector(state),
     errorMore : mediaErrorMoreSelector(state),
-    fetchingPhotos  : mediaProcessingSelector(state)
+    fetchingPhotos  : mediaProcessingSelector(state),
+    ln  : userLangSelector(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(GameOverContent)

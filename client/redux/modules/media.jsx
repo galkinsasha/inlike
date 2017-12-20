@@ -16,7 +16,7 @@ export const ERROR_TEXT = 'Ой, не можу знайти фото. Спроб
 export const ERROR_MORE_TEXT = 'Здається у нас закінчились фото. Оберіть інший тег і ми продовжимо...'
 
 const TAGS = {
-    girls:['олексійолександрович'],
+    girls:['fall'],
     pets:['morning'],
     nature:['tenerife'],
     cars:['carsandcoffee'],
@@ -29,6 +29,9 @@ const TAGS = {
 // ------------------------------------
 
 export const getMoreInstagramPhotos  = (accessToken, type, min_tag_id) => {
+    /*console.log(accessToken);
+    console.log(type);
+    console.log(min_tag_id);*/
     return (dispatch) => {
         dispatch({type:PROCESSING_MORE_PHOTOS, payload:true})
         const uri = getUri(accessToken, type, min_tag_id)
@@ -69,15 +72,15 @@ export const getInstagramPhotos  = (accessToken, type) => {
                         dispatch({type:GET_INSTAGRAM_PHOTOS, payload:{...responseText, min_tag_id:min_tag_id}})
 
                     }else if((_.isEmpty(responseText.data) || responseText.data.length<4) && min_tag_id){
-
+                        console.log("333");
                         getMoreInstagramPhotos(accessToken, type, min_tag_id)(dispatch)
 
                     }else{
-                        dispatch({type:FAIL_PHOTOS, payload:ERROR_TEXT})
+                        dispatch({type:FAIL_PHOTOS, payload:true})
                     }
 
                 }else{
-                    dispatch({type:FAIL_PHOTOS, payload:ERROR_TEXT})
+                    dispatch({type:FAIL_PHOTOS, payload:true})
                 }
 
             })
@@ -118,7 +121,7 @@ export default function mediaReducer(state = {}, action) {
             return {...state, error:action.payload, processing:false, processingMore:false}
 
         case FAIL_MORE_PHOTOS:
-            return {...state, errorMore:action.payload, processing:false, processingMore:false}
+            return {...state, errorMore:true, processing:false, processingMore:false}
 
         case PROCESSING_MORE_PHOTOS:
             return {...state, processing:false, processingMore:true}

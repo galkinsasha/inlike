@@ -1,0 +1,30 @@
+{
+    "en":{
+        "settings":"Settings",
+        "privacy_policy":"Privacy policy",
+        "exit":"Log out",
+        "count":"count",
+        "more":"more",
+        "less":"less",
+        "game_over":"Game over",
+        "your_result":"Your result",
+        "cant_find_photo":"Oops, can't match any photos. Try another tag",
+        "end_photo":"It seems like we don't have photos with this tag. Please select another one and we will continue...",
+        "what_is_next":"What is next",
+        "best_result": "You're awesome! It is your best result"
+    },
+    "ru":{
+        "settings":"Настройки",
+        "privacy_policy":"Политика конфиденциальности",
+        "exit":"Выход",
+        "count":"Угадано",
+        "more":"больше",
+        "less":"меньше",
+        "game_over":"Конец игры",
+        "your_result":"Ваш результат",
+        "cant_find_photo":"Упс, не могу подобрать фото. Попробуйте другой тег",
+        "end_photo":"Похоже мы не можем найти фото с этим тегом. Выберите другой и мы продолжим...",
+        "what_is_next":"Что дальше?",
+        "best_result": "Вы превзошли себя! Это ваш лучший результат"
+    }
+}

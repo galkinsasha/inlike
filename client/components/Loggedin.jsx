@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import  { actions as userActions } from '../redux/modules/user'
-import  { actions as mediaActions } from '../redux/modules/media'
 import { userSelector } from '../redux/selectors/user'
 import { Tracker } from 'meteor/tracker';
 import Layout from '../layouts/LoggedinLayout';
@@ -15,7 +14,7 @@ class Loggedin extends Component {
     }
 
     componentDidMount() {
-        const {setUser, uid} = this.props
+        const {setUser, uid, getLang} = this.props
         Tracker.autorun(setUser.bind(this,uid))
     }
 

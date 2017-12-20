@@ -4,6 +4,7 @@ import  { actions as mediaActions } from '../redux/modules/media'
 import  { actions as userActions } from '../redux/modules/user'
 import Settings from './SettingsContent';
 import Modal from './Modal';
+import language from './../lng.json';
 import {
     mediaSelector,
     mediaErrorSelector,
@@ -12,7 +13,7 @@ import {
     mediaMinTagIdSelector,
     mediaErrorMoreSelector
 } from '../redux/selectors/media'
-import { accessTokenSelector, userMatchTypeSelector } from '../redux/selectors/user'
+import { accessTokenSelector, userMatchTypeSelector, userLangSelector } from '../redux/selectors/user'
 import { Tracker } from 'meteor/tracker';
 import { Button } from 'react-bootstrap';
 import Loader from './Loader';
@@ -30,23 +31,29 @@ class Loggedin extends Component {
     }
 
     componentWillMount() {
-        const { accessToken, matchType, getInstagramPhotos, getType } = this.props
+        const { accessToken, matchType, getInstagramPhotos, getType, getLang } = this.props
         getType()
+        getLang()
         getInstagramPhotos(accessToken, matchType)
     }
 
     shouldComponentUpdate = props => !props.error && !props.fetchingPhotos
 
     render() {
-        const { media, fetchingPhotos, fetchingMorePhotos} = this.props;
+        const { media, fetchingPhotos, fetchingMorePhotos, ln} = this.props;
+        console.log(media);
+        const lang = language[ln]
         if((!_.isEmpty(media) && !fetchingPhotos) || fetchingMorePhotos){
             return <div className="content" id={this.state.count}>
                 {this._getSlider()}
-                <div className="counter">Вгадано: {this.state.count}</div>
+                <div className="counter">{lang.count}: {this.state.count}</div>
                 <div className="info-wrapper">
                     <div></div>
                     <div className="likes">{media[0].likes.count}</div>
-                    <div className={`vs ${this.state.answer}` }/>
+                    <div className={`vs ${this.state.answer}` }>
+                        {this._getAuthor(0)}
+                        {this._getAuthor(1)}
+                    </div>
                     {this._getButtons()}
                     <div></div>
                 </div>
@@ -58,19 +65,28 @@ class Loggedin extends Component {
             return <Modal
                 ref="modal"
                 content = {<Settings/>}
-                header = 'Налаштування'
+                header = {'settings'}
                 show={true}
             />
         }
     }
     _getGameOver = () => <GameOverContent currCount = {this.state.count} ref='game_over'/>
-
-    _getButtons = () => this.props.fetchingMorePhotos || this.props.errorMore
+    _getAuthor = i => {
+        const { media } = this.props
+        return media[i] ? <div className="author">
+                <a target="_blank" href={media[i].link}> <img src={media[i].user.profile_picture} alt={media[i].user.full_name}/> <span>{media[i].user.username}</span></a>
+            </div> : null
+    }
+    _getButtons = () => {
+        const {ln} = this.props;
+        const lang = language[ln]
+        return this.props.fetchingMorePhotos || this.props.errorMore
         ?   <div className="buttons"/>
         :   <div className="buttons">
-                <Button onClick={this._checkClick.bind(this, 1)}>більше</Button>
-                <Button onClick={this._checkClick.bind(this, 0)}>менше</Button>
+                <a onClick={this._checkClick.bind(this, 1)}>{lang.more}</a>
+                <a onClick={this._checkClick.bind(this, 0)}>{lang.less}</a>
             </div>
+    }
 
     _getSlider = () => {
         const style = (imgUrl) => ({
@@ -97,7 +113,7 @@ class Loggedin extends Component {
         }
         return <Slider key={media.length} {...settings} ref={c => this.slider = c } >
             <div className="slide" key={media[0].id}>
-                <div className="images" key={media[0].id} style={style(media[0].images.standard_resolution.url)}></div>
+                <div className="images" key={media[0].id} style={style(media[0].images.standard_resolution.url)}/>
             </div>
             {this._getLastSlide(media, 1)}
             {this._getLastSlide(media, 2)}
@@ -121,7 +137,7 @@ class Loggedin extends Component {
     }
 
     _checkClick = (more) => {
-        const {media} = this.props
+        const { media } = this.props
         const { count } = this.state
         if (more) {
             if(media[1].likes.count >= media[0].likes.count){
@@ -187,6 +203,7 @@ const mapStateToProps = (state) => ({
     fetchingPhotos : mediaProcessingSelector(state),
     fetchingMorePhotos : mediaProcessingMoreSelector(state),
     minTagId : mediaMinTagIdSelector(state),
+    ln  : userLangSelector(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Loggedin)

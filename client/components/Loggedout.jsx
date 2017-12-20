@@ -9,7 +9,8 @@ import { Button } from 'react-bootstrap';
 class Loggedout extends Component{
     render(){
         return <div className="logged-out">
-            <Button className="login-button" onClick={this.onClick.bind(this)}>Login with Instagram</Button>
+                <div><Button className="login-button" onClick={this.onClick.bind(this)}>Login with Instagram</Button></div>
+                <div><a className="privacy" href="/policy">Privacy policy</a></div>
         </div>
     }
     onClick(){

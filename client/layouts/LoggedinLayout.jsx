@@ -4,13 +4,13 @@ import '../scss/loggedout.scss';
 import { connect } from 'react-redux'
 import  { actions as userActions } from '../redux/modules/user'
 import  { actions as mediaActions } from '../redux/modules/media'
-import  { mediaErrorSelector } from '../redux/selectors/media'
+import  { mediaErrorSelector, mediaSelector } from '../redux/selectors/media'
+import  { userLangSelector } from '../redux/selectors/user'
 import { Tracker } from 'meteor/tracker';
 import Modal from './../components/Modal';
 import Settings from './../components/SettingsContent'
 import { browserHistory } from 'react-router'
-import PropTypes from 'prop-types';
-
+import language from './../lng.json';
 
 import {
     Navbar,
@@ -29,6 +29,8 @@ class LoggedinLayout extends Component{
         }
     }
     render(){
+        const {ln} = this.props;
+        const lang = language[ln]
         return<div id="loggedIn-layout">
             <Navbar inverse staticTop>
                 <Navbar.Header>
@@ -37,10 +39,15 @@ class LoggedinLayout extends Component{
                     </Navbar.Brand>
                     <Nav>
                         <NavDropdown eventKey={3} title={this.props.full_name || ''} id="basic-nav-dropdown">
-                            <MenuItem onClick = {this._showModalForm.bind(this)} eventKey={3.1}>Настройки</MenuItem>
-                            <MenuItem eventKey={3.2} onClick = {this._goToPolicy.bind(this)}>Політика конфіденційності</MenuItem>
+                            <MenuItem onClick = {this._showModalForm.bind(this)} eventKey={3.1}>{lang.settings}</MenuItem>
+                            <MenuItem eventKey={3.2} onClick = {this._goToPolicy.bind(this)}>{lang.privacy_policy}</MenuItem>
                             <MenuItem divider />
-                            <MenuItem eventKey={3.3} onClick={this._logout.bind(this)}>Выход</MenuItem>
+                            <MenuItem eventKey={3.4}>
+                                <span onClick = {this._switchLang.bind(this, 'en')} key={4.1}>Eng</span>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+                                <span onClick = {this._switchLang.bind(this, 'ru')} key={4.2}>Рус</span>
+                            </MenuItem>
+                            <MenuItem divider />
+                            <MenuItem eventKey={3.3} onClick={this._logout.bind(this)}>{lang.exit}</MenuItem>
                         </NavDropdown>
 
                     </Nav>
@@ -53,21 +60,17 @@ class LoggedinLayout extends Component{
             </Navbar>
             <div id="loggedIn-content">{this.props.children}</div>
             <Modal
-                //contentLabel={"edit_segment"}
                 ref="modal"
                 content = {<Settings/>}
-                header = 'Налаштування'
+                header = {'settings'}
             />
         </div>
     }
     _goToPolicy = () => window.location.href = '/policy'
     _logout = () => Tracker.autorun(this.props.logoutUser)
-    _showModalForm = () => this.refs.modal.show()
-    _closeModalForm = () => this.refs.modal.close()
-}
-
-LoggedinLayout.contextTypes = {
-    history: PropTypes.object
+    _showModalForm = () => this.refs.modal.getWrappedInstance().show()
+    _closeModalForm = () => this.refs.modal.getWrappedInstance().close()
+    _switchLang = (l) => this.props.setLang(l)
 }
 
 const mapDispatchToProps = {
@@ -77,5 +80,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => ({
     error : mediaErrorSelector(state),
+    media : mediaSelector(state),
+    ln : userLangSelector(state)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(LoggedinLayout)

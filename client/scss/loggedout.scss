@@ -55,6 +55,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  a.privacy{
+    margin-top:20px;
+    display: block;
+    color:#fff;
+  }
   button.login-button{
     position:relative;
     font-size:18px;
@@ -79,4 +84,7 @@
       border-radius: 9px;
     }
   }
+}
+.logged-out{
+  flex-direction: column;
 }
