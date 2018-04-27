@@ -1,17 +1,25 @@
 .gameOver-wrapper{
+  hr{
+    margin:5px 0;
+    padding:0;
+  }
+  .choose-tag-title{
+    width:100%;
+    display: block;
+    text-align: center;
+  }
   .gameOver-results{
     text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-    padding-bottom: 20px;
     margin-bottom: 30px;
+
     .result{
-      font-size: 48px;
+      font-size: 34px;
       &.small{
         font-size: 24px;
       }
     }
     .best-result{
-      font-size:80px;
+      font-size:50px;
       .glyphicon{
         color:#ffcb9d;
         margin: 30px;

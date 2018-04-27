@@ -38,7 +38,7 @@ class GameOverContent extends Component {
     }
 
     render() {
-        const { errorMore } = this.props
+        const { errorMore, ln } = this.props
         const { count } = this.state
         return <Modal
             ref="modal"
@@ -47,7 +47,14 @@ class GameOverContent extends Component {
                     {this._getResults(count)}
                     {this._getBestResults(count)}
                 </div>
+                <span className="choose-tag-title">{language[ln]['choose_tag']}</span>
+                <hr/>
                 <Settings callback={this._onCallback.bind(this)}/>
+                <span className="choose-tag-title">{language[ln]['continue_with_current']}</span>
+                <hr/>
+                <div className="buttons">
+                    <a onClick={this.hide.bind(this)}>{language[ln]['continue']}</a>
+                </div>
             </div>}
             header = {errorMore ? 'what_is_next' : 'game_over' }
         />

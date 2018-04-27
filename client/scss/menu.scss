@@ -1,0 +1,101 @@
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 10px;
+  top: 10px;
+  opacity:0.9;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: linear-gradient(45deg, #a82fff 0%, #ef71ff 20%, #ffdc6e);
+
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #232224;
+  opacity:0.95;
+  font-size: 1.15em;
+  padding:0;
+  .app-title{
+    display: block;
+    font-size: 30px;
+    font-weight: normal;
+    color: #fff;
+    font-family: 'Lobster', cursive !important;
+    background: linear-gradient(45deg, #a82fff 0%, #ef71ff 20%, #ffdc6e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom:15px;
+  }
+  hr, span{
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+
+    cursor:pointer;
+  }
+  a{
+    margin-left:0
+  }
+  .menu-item{
+    position: relative;
+    padding-left:25px;
+    margin:18px 0 14px;
+    &:before{
+      position: absolute;
+      top:0;
+      left:0;
+      font-size:16px;
+      display: block;
+      font-family:'Glyphicons Halflings';
+    }
+    &#settings{
+      &:before{
+        content: '\e042';
+      }
+    }
+    &#lang{
+      &:before{
+        content:'\e034'
+      }
+    }
+    &#logout{
+      &:before{
+        content:'\e163'
+      }
+    }
+  }
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #232224;
+  opacity:0.95
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 10px 0 0 20px;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+

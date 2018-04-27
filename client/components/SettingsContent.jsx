@@ -27,7 +27,7 @@ class Settings extends Component {
     render() {
         return <div>
                 <div className="settings-wrapper">
-                    <div className={this._isActive('girls')} onClick={this._onClick.bind(this, 'girls')}><i className="fa fa-venus-mars"/></div>
+                    <div className={this._isActive('art')} onClick={this._onClick.bind(this, 'art')}><i className="fa fa-picture-o"/></div>
                     <div className={this._isActive('cars')} onClick={this._onClick.bind(this, 'cars')}><i className="fa fa-car"/></div>
                     <div className={this._isActive('bikes')} onClick={this._onClick.bind(this, 'bikes')}><i className="fa fa-motorcycle"/></div>
                     <div className={this._isActive('pets')} onClick={this._onClick.bind(this, 'pets')}><i className="fa fa-paw"/></div>

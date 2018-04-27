@@ -33,10 +33,6 @@ class Loggedin extends Component {
         }
     }
 
-    _getPhotos = (userInstagramId,accessToken) => {
-        this.props.getInstagramPhotos(userInstagramId, accessToken)
-
-    }
 }
 
 const mapDispatchToProps = {

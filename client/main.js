@@ -21,6 +21,28 @@ if(Meteor.isClient){
             </Router></Provider>,
             document.getElementById('root')
         )
+
+        if (Meteor.isCordova) {
+            if (AdMob) {
+                AdMob.createBanner( {
+                    adId: 'ca-app-pub-7071169496107297/2165337450',
+                    position: AdMob.AD_POSITION.BOTTOM_CENTER,
+                    adSize: 'SMART_BANNER',
+                    isTesting: false,
+                    autoShow: true,
+                    success: function() {
+                        console.log("Received ad");
+                    },
+                    error: function() {
+                        console.log("No ad received");
+                    }
+                });
+            } else {
+                console.log("No Admob");
+            }
+        } else {
+            console.log("No Cordova ");
+        }
     });
 }
 

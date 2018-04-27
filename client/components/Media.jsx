@@ -4,6 +4,7 @@ import  { actions as mediaActions } from '../redux/modules/media'
 import  { actions as userActions } from '../redux/modules/user'
 import Settings from './SettingsContent';
 import Modal from './Modal';
+import Author from './Author';
 import language from './../lng.json';
 import {
     mediaSelector,
@@ -15,7 +16,6 @@ import {
 } from '../redux/selectors/media'
 import { accessTokenSelector, userMatchTypeSelector, userLangSelector } from '../redux/selectors/user'
 import { Tracker } from 'meteor/tracker';
-import { Button } from 'react-bootstrap';
 import Loader from './Loader';
 import GameOverContent from './GameOverContent';
 import _ from 'lodash';
@@ -41,7 +41,6 @@ class Loggedin extends Component {
 
     render() {
         const { media, fetchingPhotos, fetchingMorePhotos, ln} = this.props;
-        console.log(media);
         const lang = language[ln]
         if((!_.isEmpty(media) && !fetchingPhotos) || fetchingMorePhotos){
             return <div className="content" id={this.state.count}>
@@ -49,10 +48,10 @@ class Loggedin extends Component {
                 <div className="counter">{lang.count}: {this.state.count}</div>
                 <div className="info-wrapper">
                     <div></div>
-                    <div className="likes">{media[0].likes.count}</div>
+                    <div className="likes">{media[0].node.edge_liked_by.count}</div>
                     <div className={`vs ${this.state.answer}` }>
-                        {this._getAuthor(0)}
-                        {this._getAuthor(1)}
+                        <Author key = {media[0].node.shortcode}  imageShortcode = {media[0].node.shortcode} />
+                        <Author key = {media[1].node.shortcode}  imageShortcode = {media[1].node.shortcode} />
                     </div>
                     {this._getButtons()}
                     <div></div>
@@ -70,13 +69,8 @@ class Loggedin extends Component {
             />
         }
     }
+
     _getGameOver = () => <GameOverContent currCount = {this.state.count} ref='game_over'/>
-    _getAuthor = i => {
-        const { media } = this.props
-        return media[i] ? <div className="author">
-                <a target="_blank" href={media[i].link}> <img src={media[i].user.profile_picture} alt={media[i].user.full_name}/> <span>{media[i].user.username}</span></a>
-            </div> : null
-    }
     _getButtons = () => {
         const {ln} = this.props;
         const lang = language[ln]
@@ -89,9 +83,6 @@ class Loggedin extends Component {
     }
 
     _getSlider = () => {
-        const style = (imgUrl) => ({
-            backgroundImage: 'url(' + imgUrl + ')',
-        })
         const {media} = this.props
         const settings = {
             dots: false,
@@ -112,22 +103,19 @@ class Loggedin extends Component {
 
         }
         return <Slider key={media.length} {...settings} ref={c => this.slider = c } >
-            <div className="slide" key={media[0].id}>
-                <div className="images" key={media[0].id} style={style(media[0].images.standard_resolution.url)}/>
-            </div>
-            {this._getLastSlide(media, 1)}
-            {this._getLastSlide(media, 2)}
-
+            {this._getSlide(media, 0)}
+            {this._getSlide(media, 1)}
+            {this._getSlide(media, 2)}
         </Slider>
     }
 
-    _getLastSlide = (media, i) =>{
+    _getSlide = (media, i) =>{
         const style = (imgUrl) => ({
             backgroundImage: 'url(' + imgUrl + ')',
         })
         if(media[i] ){
-            return <div className="slide" key={media[i].id}>
-                <div className="images" key={media[i].id} style={style(media[i].images.standard_resolution.url)}></div>
+            return <div className="slide" key={media[i].node.id}>
+                <div className="images" key={media[i].node.id} style={style(media[i].node.thumbnail_src)}/>
             </div>
         }else{
             return <div className="slide loading" key={_.uniqueId('loading_')}>
@@ -140,7 +128,7 @@ class Loggedin extends Component {
         const { media } = this.props
         const { count } = this.state
         if (more) {
-            if(media[1].likes.count >= media[0].likes.count){
+            if(media[1].node.edge_liked_by.count >= media[0].node.edge_liked_by.count){
                 this.setState({
                     answer:'correct',
                     count:count+1
@@ -151,7 +139,7 @@ class Loggedin extends Component {
                 },this._onFail.bind(this))
             }
         } else {
-            if(media[1].likes.count <= media[0].likes.count){
+            if(media[1].node.edge_liked_by.count <= media[0].node.edge_liked_by.count){
                 this.setState({
                     answer:'correct',
                     count:count+1

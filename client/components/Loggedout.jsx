@@ -8,15 +8,25 @@ import { Button } from 'react-bootstrap';
 
 class Loggedout extends Component{
     render(){
+        const playMarketButton = !Meteor.isCordova 
+            ? <a href="https://play.google.com/store/apps/details?id=moreless.meteorapp.com"><img width="120px" src="google-play-badge.png" alt="Download at Play Market"/></a>
+            : null
         return <div className="logged-out">
-                <div><Button className="login-button" onClick={this.onClick.bind(this)}>Login with Instagram</Button></div>
-                <div><a className="privacy" href="/policy">Privacy policy</a></div>
+                <div><Button className="login-button" onClick={this.onClick.bind(this)}>Login with Facebook</Button></div>
+                <div className="privacy">Simple game where you need to choose what Instagram image has more likes</div>
+                {playMarketButton}
         </div>
     }
     onClick(){
         const {setError, checkLoggedIn} = this.props
-
-        Meteor.loginWithInstagram({
+        Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, function(err, a){
+            if (err) {
+                setError(err)
+            } else {
+                checkLoggedIn()
+            }
+        });
+        /*Meteor.loginWithInstagram({
             loginStyle: 'popup'
         },function (err) {
             if (err) {
@@ -24,7 +34,7 @@ class Loggedout extends Component{
             } else {
                 checkLoggedIn()
             }
-        })
+        })*/
     }
 }
 
