@@ -31,3 +31,33 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+@keyframes loader-animation {
+  0% {
+    left: -100%;
+  }
+  49% {
+    left: 100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+.loader {
+  height: 5px;
+  width: 100%;
+  overflow: hidden;
+}
+.loader .bar {
+  position: relative;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(45deg, #905aff 0%, #daa1ff 50%, #ffcb9d);
+  animation-name: loader-animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}

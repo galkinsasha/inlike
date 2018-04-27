@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import  { actions as userActions } from '../redux/modules/user'
-import  { actions as mediaActions } from '../redux/modules/media'
 import { userSelector } from '../redux/selectors/user'
 import { Tracker } from 'meteor/tracker';
 import Layout from '../layouts/LoggedinLayout';
@@ -15,14 +14,12 @@ class Loggedin extends Component {
     }
 
     componentDidMount() {
-        const {setUser, uid} = this.props
-        Tracker.autorun(setUser.bind(null, uid))
+        const {setUser, uid, getLang} = this.props
+        Tracker.autorun(setUser.bind(this,uid))
     }
-
 
     render() {
         const {userData} = this.props
-        console.log(userData);
         return <Layout { ...userData }>
             {this._getContent(userData.id)}
         </Layout>
@@ -36,10 +33,6 @@ class Loggedin extends Component {
         }
     }
 
-    _getPhotos = (userInstagramId,accessToken) => {
-        this.props.getInstagramPhotos(userInstagramId, accessToken)
-
-    }
 }
 
 const mapDispatchToProps = {

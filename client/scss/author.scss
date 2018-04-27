@@ -1,0 +1,40 @@
+.author{
+  position: absolute;
+  top: 0;
+  left:65px;
+  text-align: center;
+  width:40px;
+  overflow: hidden;
+
+  &:nth-child(odd){
+    left:-34px;
+  }
+
+    .loader{
+      width:140px;
+      margin:17px auto;
+      z-index:1;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+
+  a{
+    color:#fff;
+    text-transform: lowercase;
+    font-size:12px;
+    display:block;
+    span{
+      display: block;
+      height: 25px;
+      font-size:20px;
+    }
+  }
+  img{
+    width:40px;
+    border-radius:50%;
+    border:2px solid #fff;
+    position:relative;
+    top:0
+  }
+
+}

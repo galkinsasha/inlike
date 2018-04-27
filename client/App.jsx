@@ -4,9 +4,6 @@ import Loggedout from './components/Loggedout'
 import {connect} from 'react-redux'
 import { uidSelector } from './redux/selectors/user'
 import { actions } from './redux/modules/user'
-
-
-
 class App extends Component{
     componentDidMount(){
         this.props.checkLoggedIn()

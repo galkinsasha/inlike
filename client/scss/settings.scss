@@ -1,0 +1,25 @@
+.settings-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  .item{
+    font-size: 45px;
+    flex-grow: 1;
+    width: 33%;
+    justify-content:center;
+    align-items: center;
+    display: flex;
+    margin-bottom:30px;
+    &.active{
+      color:#ff96fb;
+    }
+  }
+
+}
+.settings-error{
+  margin:0 auto;
+  text-align: center;
+  min-height: 20px;
+}

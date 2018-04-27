@@ -1,0 +1,26 @@
+.policy-wrapper{
+  padding:20px;
+  margin:20px;
+  border-radius:6px;
+  background-color: #424143;
+  color:#fff;
+  font-size:16px;
+  h2{
+    font-size:20px;
+  }
+
+  .lang{
+    text-align: right;
+    a{
+      color:#fff;
+      margin:7px;
+    }
+  }
+  .close{
+    text-align: left;
+    a{
+      color:#fff;
+      margin:7px;
+    }
+  }
+}
